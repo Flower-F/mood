@@ -10,7 +10,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             <UserButton />
           </div>
         </header>
-        <div className="h-[calc(100vh-60px)]">{children}</div>
+        <div className="h-[calc(100vh-60px)] w-[calc(100vw-200px)]">{children}</div>
       </div>
     </div>
   );

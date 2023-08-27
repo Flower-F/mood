@@ -1,4 +1,5 @@
 "use client";
+
 import { createNewEntry } from "@/utils/api";
 import { useRouter } from "next/navigation";
 
