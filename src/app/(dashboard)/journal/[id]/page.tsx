@@ -13,6 +13,18 @@ const getEntry = async (id: string) => {
           id,
         },
       },
+      include: {
+        analysis: {
+          select: {
+            id: true,
+            mood: true,
+            subject: true,
+            summary: true,
+            negative: true,
+            color: true,
+          },
+        },
+      },
     });
 
     return entry;
@@ -21,22 +33,23 @@ const getEntry = async (id: string) => {
 
 const JournalDetailPage = async ({ params }: { params: { id: string } }) => {
   const entry = await getEntry(params.id);
+
   const analysisData = [
     {
       name: "Summary",
-      value: "",
+      value: entry?.analysis?.summary ?? "",
     },
     {
       name: "Subject",
-      value: "",
+      value: entry?.analysis?.subject ?? "",
     },
     {
       name: "Mood",
-      value: "",
+      value: entry?.analysis?.mood ?? "",
     },
     {
       name: "Negative",
-      value: "False",
+      value: entry?.analysis?.negative ? "True" : "False",
     },
   ];
 
@@ -50,13 +63,16 @@ const JournalDetailPage = async ({ params }: { params: { id: string } }) => {
         <Editor entry={entry} />
       </div>
       <div className="border-l border-black/10">
-        <div className="bg-blue-300 px-6 py-10">
+        <div className="px-6 py-10" style={{ backgroundColor: entry.analysis?.color ?? "#ffffff" }}>
           <h2 className="text-2xl">Analysis</h2>
         </div>
         <ul>
           {analysisData.map((item) => {
             return (
-              <li className="flex items-center justify-between border-b border-b-black/10 px-2 py-4" key={item.name}>
+              <li
+                className="flex items-center justify-between gap-8 border-b border-b-black/10 px-2 py-4"
+                key={item.name}
+              >
                 <span className="text-lg font-semibold">{item.name}</span>
                 <span>{item.value}</span>
               </li>
